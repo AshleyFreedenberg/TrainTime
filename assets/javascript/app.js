@@ -33,7 +33,7 @@ $("#addTrain").on("click", function (event) {
     console.log(newTrain.Time);
     console.log(newTrain.Frequency);
 
-
+   
     $("#trainName").val("");
     $("#destination").val("");
     $("#trainTime").val("");
@@ -91,4 +91,3 @@ $(document).ready(function () {
         $("#train-table").append(newRow);
     });
 });
-
