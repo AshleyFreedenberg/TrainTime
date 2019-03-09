@@ -1,4 +1,4 @@
-// Initialize Firebase
+/// Initialize Firebase
 var config = {
     apiKey: "AIzaSyCvbxQqDp8cYBlASJyo5QLRDq-nKiox12s",
     authDomain: "fullstack-ucsd.firebaseapp.com",
@@ -41,56 +41,55 @@ $("#addTrain").on("click", function (event) {
     $("#frequency").val("");
 });
 
+$(document).ready(function () {
 
-database.ref().on("child_added", function (childSnapshot) {
-    
-    console.log(childSnapshot.val());
-    //get data from DB
-    var trainName = childSnapshot.val().Name;
-    var destination = childSnapshot.val().Destination;
-    var trainTime = childSnapshot.val().Time;
-    var frequency = childSnapshot.val().Frequency;
+    database.ref().on("child_added", function (childSnapshot) {
 
-    console.log(trainName);
-    console.log(destination);
-    console.log(trainTime);
-    console.log(frequency);
+        console.log(childSnapshot.val());
+        //get data from DB
+        var trainName = childSnapshot.val().Name;
+        var destination = childSnapshot.val().Destination;
+        var trainTime = childSnapshot.val().Time;
+        var frequency = childSnapshot.val().Frequency;
 
-    //create var for Next Arrival time
-    //var nextArrival = ;
-    var tFrequency = frequency;
-    var firstTime = trainTime
+        console.log(trainName);
+        console.log(destination);
+        console.log(trainTime);
+        console.log(frequency);
 
-    var arrivalTime = moment(firstTime, "HH:mm").subtract(1, "years");
-    console.log(arrivalTime);
+        //create var for Next Arrival time
+        //var nextArrival = ;
 
-    var currentTime = moment();
-    console.log("CURRENT TIME: " + moment(currentTime).format())
+        var arrivalTime = moment(trainTime, "HH:mm").subtract(1, "years");
+        console.log(arrivalTime);
 
-    var diffTime = moment().diff(moment(arrivalTime), "minutes");
-    console.log(diffTime);
+        var currentTime = moment();
+        console.log("CURRENT TIME: " + moment(currentTime).format())
 
-    var tRemainder = diffTime % tFrequency;
-    console.log(tRemainder);
+        var diffTime = moment().diff(moment(arrivalTime), "minutes");
+        console.log(diffTime);
 
-    //create var for Minutes Away
+        var tRemainder = diffTime % frequency;
+        console.log(tRemainder);
 
-    var tMinutesTillTrain = tFrequency - tRemainder;
-    console.log(tMinutesTillTrain);
+        //create var for Minutes Away
 
-    var nextTrain = moments().add(tMinutesTillTrain, "minutes");
-    console.log(nextTrain);
+        var tMinutesTillTrain = frequency - tRemainder;
+        console.log(tMinutesTillTrain);
 
-    // Display new data in new row
-    var newRow = $("<tr>").append(
-        $("<td>").text(trainName),
-        $("<td>").text(destination),
-        $("<td>").text(frequency),
-        $("<td>").text(nextTrain),
-        $("<td>").text(tMinutesTillTrain),
-    );
+        var nextTrain = moment().add(tMinutesTillTrain, "minutes").format("HH:mm");
+        console.log("Next Train " + nextTrain);
 
-    $("#train-table").append(newRow);
+        // Display new data in new row
+        var newRow = $("<tr>").append(
+            $("<td>").text(trainName),
+            $("<td>").text(destination),
+            $("<td>").text(frequency),
+            $("<td>").text(nextTrain),
+            $("<td>").text(tMinutesTillTrain),
+        );
+
+        $("#train-table").append(newRow);
+    });
 });
-
 
