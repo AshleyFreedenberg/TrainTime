@@ -33,7 +33,6 @@ $("#addTrain").on("click", function (event) {
     console.log(newTrain.Time);
     console.log(newTrain.Frequency);
 
-    alert("Train successfully added");
 
     $("#trainName").val("");
     $("#destination").val("");
